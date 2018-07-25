@@ -86,9 +86,9 @@ export default class Workplace extends PureComponent {
     dispatch({
       type: 'activities/fetchList',
     });
-    dispatch({
-      type: 'chart/fetch',
-    });
+    // dispatch({
+    //   type: 'chart/fetch',
+    // });
   }
 
   componentWillUnmount() {

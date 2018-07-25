@@ -137,4 +137,9 @@ const proxy = {
   },
 };
 
-export default (noProxy ? {} : delay(proxy, 1000));
+export default (noProxy
+  ? {
+      'GET /api/*': 'http://localhost:6217/',
+      'POST /api/*': 'http://localhost:6217/',
+    }
+  : delay(proxy, 0));

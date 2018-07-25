@@ -27,4 +27,11 @@ export default {
   disableDynamicImport: true,
   publicPath: '/',
   hash: true,
+  proxy: {
+    '/api/*': {
+      target: 'http://localhost:6217/api/',
+      changeOrigin: true,
+      pathRewrite: { '^/api': '' },
+    },
+  },
 };

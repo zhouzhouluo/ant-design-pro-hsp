@@ -125,7 +125,7 @@ class BasicLayout extends React.PureComponent {
   getPageTitle() {
     const { routerData, location } = this.props;
     const { pathname } = location;
-    let title = 'Ant Design Pro';
+    let title = '和视频';
     let currRouterData = null;
     // match params path
     Object.keys(routerData).forEach(key => {
@@ -134,7 +134,7 @@ class BasicLayout extends React.PureComponent {
       }
     });
     if (currRouterData && currRouterData.name) {
-      title = `${currRouterData.name} - Ant Design Pro`;
+      title = `${currRouterData.name} - 和视频`;
     }
     return title;
   }
@@ -152,9 +152,9 @@ class BasicLayout extends React.PureComponent {
     } else {
       const { routerData } = this.props;
       // get the first authorized route path in routerData
-      const authorizedPath = Object.keys(routerData).find(
-        item => check(routerData[item].authority, item) && item !== '/'
-      );
+      const authorizedPath = Object.keys(routerData).find(item => {
+        return check(routerData[item].authority, item) && item !== '/';
+      });
       return authorizedPath;
     }
     return redirect;
@@ -276,7 +276,7 @@ class BasicLayout extends React.PureComponent {
                 },
                 {
                   key: 'Ant Design',
-                  title: 'Ant Design',
+                  title: 'H S P',
                   href: 'http://ant.design',
                   blankTarget: true,
                 },

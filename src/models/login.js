@@ -20,11 +20,14 @@ export default {
         payload: response,
       });
       // Login successfully
-      if (response.status === 'ok') {
+      if (response.code === 200) {
         reloadAuthorized();
+
         const urlParams = new URL(window.location.href);
+
         const params = getPageQuery();
         let { redirect } = params;
+
         if (redirect) {
           const redirectUrlParams = new URL(redirect);
           if (redirectUrlParams.origin === urlParams.origin) {
@@ -45,7 +48,7 @@ export default {
         type: 'changeLoginStatus',
         payload: {
           status: false,
-          currentAuthority: 'guest',
+          data: { userName: 'guest' },
         },
       });
       reloadAuthorized();
@@ -62,7 +65,7 @@ export default {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.currentAuthority);
+      setAuthority(payload.data.userName);
       return {
         ...state,
         status: payload.status,

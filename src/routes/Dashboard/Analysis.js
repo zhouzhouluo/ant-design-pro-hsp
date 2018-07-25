@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import {
@@ -61,9 +62,9 @@ export default class Analysis extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({
-      type: 'chart/fetch',
-    });
+    // dispatch({
+    //   type: 'chart/fetch',
+    // });
   }
 
   componentWillUnmount() {
@@ -91,9 +92,9 @@ export default class Analysis extends Component {
     });
 
     const { dispatch } = this.props;
-    dispatch({
-      type: 'chart/fetchSalesData',
-    });
+    // dispatch({
+    //   type: 'chart/fetchSalesData',
+    // });
   };
 
   selectDate = type => {
@@ -102,9 +103,9 @@ export default class Analysis extends Component {
     });
 
     const { dispatch } = this.props;
-    dispatch({
-      type: 'chart/fetchSalesData',
-    });
+    // dispatch({
+    //   type: 'chart/fetchSalesData',
+    // });
   };
 
   isActive(type) {

@@ -7,3 +7,7 @@ export async function query() {
 export async function queryCurrent() {
   return request('/api/currentUser');
 }
+
+export async function getCurrentUser() {
+  return request('/api/user/getCurrentUser.action');
+}

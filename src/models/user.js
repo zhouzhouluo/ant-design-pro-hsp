@@ -1,4 +1,5 @@
-import { query as queryUsers, queryCurrent } from '../services/user';
+/* eslint-disable no-unused-vars */
+import { query as queryUsers, queryCurrent, getCurrentUser } from '../services/user';
 
 export default {
   namespace: 'user',
@@ -16,11 +17,18 @@ export default {
         payload: response,
       });
     },
+    // *fetchCurrent(_, { call, put }) {
+    //   const response = yield call(getCurrentUser);
+    //   yield put({
+    //     type: 'saveCurrentUser',
+    //     payload: response,
+    //   });
+    // },
     *fetchCurrent(_, { call, put }) {
-      const response = yield call(queryCurrent);
+      const response = yield call(getCurrentUser);
       yield put({
         type: 'saveCurrentUser',
-        payload: response,
+        payload: response.data,
       });
     },
   },

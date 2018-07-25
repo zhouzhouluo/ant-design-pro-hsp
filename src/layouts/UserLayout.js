@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Fragment } from 'react';
 import { Link, Redirect, Switch, Route } from 'dva/router';
 import DocumentTitle from 'react-document-title';
@@ -27,7 +28,7 @@ const links = [
 
 const copyright = (
   <Fragment>
-    Copyright <Icon type="copyright" /> 2018 蚂蚁金服体验技术部出品
+    Copyright <Icon type="copyright" /> 2018 GMCC
   </Fragment>
 );
 
@@ -60,10 +61,12 @@ class UserLayout extends React.PureComponent {
               <div className={styles.header}>
                 <Link to="/">
                   <img alt="logo" className={styles.logo} src={logo} />
-                  <span className={styles.title}>Ant Design</span>
+                  <span className={styles.title}>和视频</span>
                 </Link>
               </div>
-              <div className={styles.desc}>Ant Design 是西湖区最具影响力的 Web 设计规范</div>
+              <div className={styles.desc}>
+                为配合广东移动有限公司的IPTV业务，实现一号多终端同振，开发机顶盒视频通话APP
+              </div>
             </div>
             <Switch>
               {getRoutes(match.path, routerData).map(item => (
@@ -77,7 +80,7 @@ class UserLayout extends React.PureComponent {
               <Redirect from="/user" to={getLoginPathWithRedirectPath()} />
             </Switch>
           </div>
-          <GlobalFooter links={links} copyright={copyright} />
+          <GlobalFooter copyright={copyright} />
         </div>
       </DocumentTitle>
     );

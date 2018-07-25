@@ -74,6 +74,15 @@ export const getRouterData = app => {
     '/': {
       component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
     },
+    '/sys/xtgly-list': {
+      component: dynamicWrapper(app, ['sysxtgly'], () => import('../routes/sys/XtglyList')),
+    },
+    '/sys/role-list': {
+      component: dynamicWrapper(app, ['sysrole'], () => import('../routes/sys/RoleList')),
+    },
+    '/sys/apk-list': {
+      component: dynamicWrapper(app, ['sysapk'], () => import('../routes/sys/ApkList')),
+    },
     '/dashboard/analysis': {
       component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
     },
