@@ -2,6 +2,7 @@ import fetch from 'dva/fetch';
 import { notification } from 'antd';
 import { routerRedux } from 'dva/router';
 import store from '../index';
+import { getAccessToken } from './authority';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -20,6 +21,7 @@ const codeMessage = {
   503: '服务不可用，服务器暂时过载或维护。',
   504: '网关超时。',
 };
+
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
@@ -33,6 +35,16 @@ function checkStatus(response) {
   error.name = response.status;
   error.response = response;
   throw error;
+}
+
+function checkResult(result) {
+  if (result.code !== 200) {
+    notification.error({
+      message: `请求错误 ${result.code}`,
+      description: result.message,
+    });
+  }
+  return result;
 }
 
 /**
@@ -68,6 +80,11 @@ export default function request(url, options) {
     }
   }
 
+  newOptions.headers = {
+    'Access-Token': getAccessToken(),
+    ...newOptions.headers,
+  };
+
   return fetch(url, newOptions)
     .then(checkStatus)
     .then(response => {
@@ -75,6 +92,9 @@ export default function request(url, options) {
         return response.text();
       }
       return response.json();
+    })
+    .then(result => {
+      return checkResult(result);
     })
     .catch(e => {
       const { dispatch } = store;

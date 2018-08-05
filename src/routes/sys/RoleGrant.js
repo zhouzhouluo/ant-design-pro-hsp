@@ -10,7 +10,7 @@ export default class RoleGrant extends PureComponent {
     // expandedKeys: ['0-0-0', '0-0-1'],
     // autoExpandParent: true,
     checkedKeys: [],
-    // selectedKeys: [],
+    selectedKeys: [],
   };
 
   componentDidMount() {
@@ -62,12 +62,12 @@ export default class RoleGrant extends PureComponent {
       selectedRoleId,
     } = this.props;
 
-    const { checkedKeys } = this.state;
+    const { checkedKeys, selectedKeys } = this.state;
 
     const okHandle = () => {
       const parm = {
         roleId: selectedRoleId,
-        resourceIds: checkedKeys,
+        resourceIds: checkedKeys.checked,
       };
       handleGrant(parm);
     };
@@ -82,12 +82,13 @@ export default class RoleGrant extends PureComponent {
         >
           <Tree
             checkable
-            onExpand={this.onExpand}
+            // onExpand={this.onExpand}
             defaultExpandAll
             onCheck={this.onCheck}
             checkedKeys={checkedKeys}
             onSelect={this.onSelect}
-            // selectedKeys={selectedKeys}
+            selectedKeys={selectedKeys}
+            checkStrictly
           >
             {this.renderTreeNodes(treeDatas.treeList)}
           </Tree>

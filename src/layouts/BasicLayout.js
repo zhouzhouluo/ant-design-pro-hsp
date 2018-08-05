@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Layout, Icon, message } from 'antd';
@@ -94,16 +95,32 @@ class BasicLayout extends React.PureComponent {
     breadcrumbNameMap: PropTypes.object,
   };
 
-  state = {
-    isMobile,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isMobile,
+      remoteUserMenuData: null,
+    };
+  }
 
   getChildContext() {
-    const { location, routerData } = this.props;
+    const { location, routerData, usermenuData } = this.props;
     return {
       location,
-      breadcrumbNameMap: getBreadcrumbNameMap(getMenuData(), routerData),
+      breadcrumbNameMap: getBreadcrumbNameMap(getMenuData(usermenuData), routerData),
     };
+  }
+
+  componentWillMount() {
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'user/getMenus',
+    }).then(() => {
+      this.setState({
+        remoteUserMenuData: this.props.usermenuData,
+      });
+    });
   }
 
   componentDidMount() {
@@ -160,6 +177,7 @@ class BasicLayout extends React.PureComponent {
     return redirect;
   };
 
+  // eslint-disable-next-line react/sort-comp
   handleMenuCollapse = collapsed => {
     const { dispatch } = this.props;
     dispatch({
@@ -199,6 +217,28 @@ class BasicLayout extends React.PureComponent {
     }
   };
 
+  getSiderMenu = (collapsed, location, mb) => {
+    const { remoteUserMenuData } = this.state;
+
+    if (!remoteUserMenuData) {
+      return;
+    }
+    return (
+      <SiderMenu
+        logo={logo}
+        // 不带Authorized参数的情况下如果没有权限,会强制跳到403界面
+        // If you do not have the Authorized parameter
+        // you will be forced to jump to the 403 interface without permission
+        Authorized={Authorized}
+        menuData={getMenuData(remoteUserMenuData)}
+        collapsed={collapsed}
+        location={location}
+        isMobile={mb}
+        onCollapse={this.handleMenuCollapse}
+      />
+    );
+  };
+
   render() {
     const {
       currentUser,
@@ -213,18 +253,8 @@ class BasicLayout extends React.PureComponent {
     const bashRedirect = this.getBaseRedirect();
     const layout = (
       <Layout>
-        <SiderMenu
-          logo={logo}
-          // 不带Authorized参数的情况下如果没有权限,会强制跳到403界面
-          // If you do not have the Authorized parameter
-          // you will be forced to jump to the 403 interface without permission
-          Authorized={Authorized}
-          menuData={getMenuData()}
-          collapsed={collapsed}
-          location={location}
-          isMobile={mb}
-          onCollapse={this.handleMenuCollapse}
-        />
+        {this.getSiderMenu(collapsed, location, mb)}
+
         <Layout>
           <Header style={{ padding: 0 }}>
             <GlobalHeader
@@ -306,5 +336,7 @@ export default connect(({ user, global = {}, loading }) => ({
   currentUser: user.currentUser,
   collapsed: global.collapsed,
   fetchingNotices: loading.effects['global/fetchNotices'],
-  notices: global.notices,
+  notices: user.notices,
+  usermenuData: user.usermenuData,
+  remoteUserMenuData: user.usermenuData,
 }))(BasicLayout);

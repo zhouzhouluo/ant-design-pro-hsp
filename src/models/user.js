@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { query as queryUsers, queryCurrent, getCurrentUser } from '../services/user';
+import { query as queryUsers, queryCurrent, getCurrentUser, getMenus } from '../services/user';
 
 export default {
   namespace: 'user',
@@ -31,6 +31,13 @@ export default {
         payload: response.data,
       });
     },
+    *getMenus(_, { call, put }) {
+      const response = yield call(getMenus);
+      yield put({
+        type: 'changeLayoutMenuData',
+        payload: response.data,
+      });
+    },
   },
 
   reducers: {
@@ -44,6 +51,12 @@ export default {
       return {
         ...state,
         currentUser: action.payload || {},
+      };
+    },
+    changeLayoutMenuData(state, action) {
+      return {
+        ...state,
+        usermenuData: action.payload,
       };
     },
     changeNotifyCount(state, action) {

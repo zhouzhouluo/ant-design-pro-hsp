@@ -78,6 +78,19 @@ export async function queryNotices() {
   return request('/api/notices');
 }
 
+export async function getToken() {
+  return request('/api/login/getToken.action', {
+    method: 'get',
+  });
+}
+
+export async function accountLogin(params) {
+  return request('/api/login/account.action', {
+    method: 'POST',
+    body: params,
+  });
+}
+
 export async function findUserPage(params) {
   return request('/api/sys/systemUser/findUserPage.action', {
     method: 'POST',

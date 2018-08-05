@@ -11,3 +11,9 @@ export async function queryCurrent() {
 export async function getCurrentUser() {
   return request('/api/user/getCurrentUser.action');
 }
+
+export async function getMenus() {
+  return request('/api/user/getMenus.action', {
+    method: 'GET',
+  });
+}

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { isUrl } from '../utils/utils';
 
 const menuData = [
@@ -87,6 +88,15 @@ const menuData = [
   },
 ];
 
+//
+// const menuData = [
+//   {
+//     name: '系统管理',
+//     icon: 'dashboard',
+//     path: 'sys',
+//   },
+// ];
+
 function formatter(data, parentPath = '/', parentAuthority) {
   return data.map(item => {
     let { path } = item;
@@ -105,4 +115,10 @@ function formatter(data, parentPath = '/', parentAuthority) {
   });
 }
 
-export const getMenuData = () => formatter(menuData);
+export const getMenuData = menuDatas => {
+  if (!menuDatas) {
+    return formatter([]);
+  } else {
+    return formatter(menuDatas);
+  }
+};

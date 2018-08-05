@@ -165,8 +165,8 @@ export default class RoleList extends PureComponent {
     dispatch({
       type: 'sysapk/add',
       payload: fields,
-    }).then(res => {
-      console.log(res);
+    }).then(() => {
+      // console.log(res);
       message.success('添加成功');
       this.setState({
         modalAddVisible: false,

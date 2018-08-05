@@ -1,7 +1,7 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
-import { fakeAccountLogin } from '../services/api';
-import { setAuthority } from '../utils/authority';
+import { accountLogin } from '../services/api';
+import { setAuthority, setToken } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
 import { getPageQuery } from '../utils/utils';
 
@@ -14,14 +14,20 @@ export default {
 
   effects: {
     *login({ payload }, { call, put }) {
-      const response = yield call(fakeAccountLogin, payload);
+      const response = yield call(accountLogin, payload);
       yield put({
         type: 'changeLoginStatus',
         payload: response,
       });
+
       // Login successfully
       if (response.code === 200) {
         reloadAuthorized();
+        setToken(response.data);
+
+        // yield put({
+        //   type: 'user/getMenus',
+        // });
 
         const urlParams = new URL(window.location.href);
 
@@ -48,7 +54,7 @@ export default {
         type: 'changeLoginStatus',
         payload: {
           status: false,
-          data: { userName: 'guest' },
+          data: { currentAuthority: 'guest' },
         },
       });
       reloadAuthorized();
@@ -65,10 +71,15 @@ export default {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.data.userName);
+      if (payload.code === 200) {
+        setAuthority(payload.data.currentAuthority);
+      } else {
+        setAuthority('guest');
+      }
+
       return {
         ...state,
-        status: payload.status,
+        status: payload.code,
         type: payload.type,
       };
     },
